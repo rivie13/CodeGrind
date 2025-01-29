@@ -17,10 +17,50 @@
         </div>
     </nav>
     
-    <main>
-        <div class="problem-details-container">
+    <main class="problem-workspace">
+        <!-- Left panel: Problem description -->
+        <div class="panel problem-panel">
             <div id="problem-content">
                 Loading problem...
+            </div>
+        </div>
+        
+        <!-- Resize handle -->
+        <div class="resize-handle"></div>
+
+        <!-- Middle panel: Code editor -->
+        <div class="panel editor-panel">
+            <div class="editor-header">
+                <select id="language-select">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                </select>
+            </div>
+            <div class="editor-container">
+                <textarea id="code-editor" placeholder="Write your code here..."></textarea>
+            </div>
+            <div class="editor-footer">
+                <button id="run-code" class="primary-button">Run Code</button>
+                <button id="submit-code" class="primary-button">Submit</button>
+            </div>
+        </div>
+
+        <!-- Resize handle -->
+        <div class="resize-handle"></div>
+
+        <!-- Right panel: AI Chat -->
+        <div class="panel chat-panel">
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message">
+                    <div class="message-content">
+                        Hello! I'm your AI assistant. Need help with this problem?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <textarea id="chat-input" placeholder="Ask a question..."></textarea>
+                <button id="send-message" class="primary-button">Send</button>
             </div>
         </div>
     </main>

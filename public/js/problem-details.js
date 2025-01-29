@@ -55,4 +55,50 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `;
     }
+
+    const handles = document.querySelectorAll('.resize-handle');
+    
+    handles.forEach((handle, index) => {
+        let isResizing = false;
+        let startX;
+        let startWidths;
+        
+        handle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startX = e.pageX;
+            
+            // Get the panels adjacent to this handle
+            const panels = [
+                handle.previousElementSibling,
+                handle.nextElementSibling
+            ];
+            
+            startWidths = panels.map(panel => panel.offsetWidth);
+            
+            handle.classList.add('active');
+            
+            // Add event listeners for dragging
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+                handle.classList.remove('active');
+                document.removeEventListener('mousemove', handleMouseMove);
+            });
+        });
+        
+        function handleMouseMove(e) {
+            if (!isResizing) return;
+            
+            const panels = [
+                handle.previousElementSibling,
+                handle.nextElementSibling
+            ];
+            
+            const dx = e.pageX - startX;
+            
+            // Update widths
+            panels[0].style.width = `${startWidths[0] + dx}px`;
+            panels[1].style.width = `${startWidths[1] - dx}px`;
+        }
+    });
 });
