@@ -110,6 +110,49 @@ main {
     margin-top: 0.5rem;
 }
 
-.difficulty.easy { background-color: #2ecc71; color: white; }
-.difficulty.medium { background-color: #f1c40f; color: black; }
-.difficulty.hard { background-color: #e74c3c; color: white; }
+.problem-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.problem-link:hover {
+    background-color: #f0f0f0;
+}
+
+.problem-details-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.problem-stats {
+    margin: 1rem 0;
+}
+
+.problem-description {
+    margin-top: 2rem;
+    line-height: 1.8;
+}
+
+.difficulty.EASY { background-color: #2ecc71; color: white; }
+.difficulty.MEDIUM { background-color: #f1c40f; color: black; }
+.difficulty.HARD { background-color: #e74c3c; color: white; }
+
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    color: #e74c3c;
+}
+
+.error-message a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #3498db;
+    text-decoration: none;
+}
+
+.error-message a:hover {
+    text-decoration: underline;
+}

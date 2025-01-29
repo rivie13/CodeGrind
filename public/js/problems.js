@@ -16,11 +16,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             problemList.innerHTML = problems.questions.map(problem => `
                 <div class="problem-card">
-                    <h3>${problem.title}</h3>
-                    <p>Problem #${problem.questionFrontendId}</p>
-                    <span class="difficulty ${problem.difficulty.toLowerCase()}">
-                        ${problem.difficulty}
-                    </span>
+                    <a href="problem-details.html?titleSlug=${problem.titleSlug}" class="problem-link">
+                        <h3>${problem.title}</h3>
+                        <p>Problem #${problem.questionFrontendId}</p>
+                        <span class="difficulty ${problem.difficulty.toLowerCase()}">
+                            ${problem.difficulty}
+                        </span>
+                    </a>
                 </div>
             `).join('');
         } catch (error) {
