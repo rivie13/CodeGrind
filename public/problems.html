@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Problems</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1>LeetCode Explorer</h1>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="problems.html" class="active">Problem List</a>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <div class="problems-container">
+            <h2>LeetCode Problems</h2>
+            <div class="filters">
+                <select id="difficulty">
+                    <option value="">All Difficulties</option>
+                    <option value="EASY">Easy</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HARD">Hard</option>
+                </select>
+            </div>
+            <div id="problem-list" class="problem-list">
+                Loading problems...
+            </div>
+        </div>
+    </main>
+    
+    <!-- Import the library from CDN -->
+    <script src="https://unpkg.com/leetcode-query@1.2.3/lib/index.js" type="module"></script>
+    <!-- Import our code as a module -->
+    <script src="js/problems.js" type="module"></script>
+</body>
+</html>
