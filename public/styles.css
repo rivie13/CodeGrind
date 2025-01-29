@@ -76,6 +76,8 @@ main {
 }
 
 .filters {
+    display: flex;
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
@@ -362,4 +364,36 @@ select {
     border-radius: 4px;
     font-weight: 500;
     margin-right: 1rem;
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.pagination-button {
+    padding: 0.5rem 1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background: #2980b9;
+}
+
+.pagination-button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+#page-info {
+    font-size: 1rem;
+    color: #2c3e50;
 }

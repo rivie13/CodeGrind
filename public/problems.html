@@ -23,13 +23,23 @@
             <div class="filters">
                 <select id="difficulty">
                     <option value="">All Difficulties</option>
-                    <option value="EASY">Easy</option>
-                    <option value="MEDIUM">Medium</option>
-                    <option value="HARD">Hard</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <select id="problems-per-page">
+                    <option value="10">10 per page</option>
+                    <option value="25">25 per page</option>
+                    <option value="50">50 per page</option>
                 </select>
             </div>
             <div id="problem-list" class="problem-list">
                 Loading problems...
+            </div>
+            <div class="pagination">
+                <button id="prev-page" class="pagination-button">&lt; Previous</button>
+                <span id="page-info">Page <span id="current-page">1</span> of <span id="total-pages">1</span></span>
+                <button id="next-page" class="pagination-button">Next &gt;</button>
             </div>
         </div>
     </main>

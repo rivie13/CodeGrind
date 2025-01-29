@@ -1,9 +1,13 @@
 import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
 import { LeetCode } from 'leetcode-query';
 
+dotenv.config();
+
 const app = express();
 const port = 3000;
+// Initialize LeetCode client with authentication
 const leetcode = new LeetCode();
 
 // Request logging middleware
@@ -22,11 +26,70 @@ app.use(cors({
 // Bind to localhost only
 app.get('/api/problems', async (req, res) => {
     try {
-        const difficulty = req.query.difficulty;
-        const filters = difficulty ? { difficulty } : {};
-        const problems = await leetcode.problems({ filters });
-        res.json(problems);
+        // Convert EASY to Easy, MEDIUM to Medium, etc.
+        const difficulty = req.query.difficulty ? 
+            req.query.difficulty.charAt(0).toUpperCase() + 
+            req.query.difficulty.slice(1).toLowerCase() : null;
+        console.log('\n==== DEBUG INFO ====');
+        console.log('Original difficulty:', req.query.difficulty);
+        console.log('Converted difficulty:', difficulty);
+        
+        // ... authentication code ...
+        // Try to authenticate if credentials are provided
+        if (process.env.LEETCODE_USERNAME && process.env.LEETCODE_PASSWORD) {
+            try {
+                await leetcode.auth({
+                    username: process.env.LEETCODE_USERNAME,
+                    password: process.env.LEETCODE_PASSWORD
+                });
+                console.log('Successfully authenticated with LeetCode');
+            } catch (authError) {
+                console.error('Authentication failed:', authError.message);
+            }
+        }
+
+        const query = {
+            query: `
+                query problemsetQuestionList {
+                    allQuestions: allQuestionsRaw {
+                        titleSlug
+                        title
+                        questionFrontendId
+                        difficulty
+                        status
+                        isPaidOnly
+                    }
+                }
+            `
+        };
+
+        const response = await leetcode.graphql(query);
+        
+        // Get a sample of the first problem before filtering
+        console.log('\nFirst problem from API:', {
+            title: response.data.allQuestions[0].title,
+            difficulty: response.data.allQuestions[0].difficulty
+        });
+
+        // Log all possible difficulty values
+        const difficulties = [...new Set(response.data.allQuestions.map(q => q.difficulty))];
+        console.log('\nAll possible difficulty values in API:', difficulties);
+
+        const problems = response.data.allQuestions.filter(q => {
+            return !q.isPaidOnly && 
+                   (!difficulty || q.difficulty === difficulty);
+        });
+        
+        const timestamp = new Date().toISOString();
+        console.log(`\n[${timestamp}] ✅ Retrieved ${problems.length} problems ${difficulty ? `(Difficulty: ${difficulty})` : ''}`);
+        console.log('==== END DEBUG INFO ====\n');
+        
+        res.json({ 
+            questions: problems,
+            total: problems.length 
+        });
     } catch (error) {
+        console.error('Error fetching problems:', error);
         res.status(500).json({ error: error.message });
     }
 });
