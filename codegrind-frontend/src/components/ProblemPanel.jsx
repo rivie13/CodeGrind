@@ -1,36 +1,41 @@
+import { Box, Spinner } from '@chakra-ui/react';
 import DOMPurify from 'dompurify';
 
 function ProblemPanel({ problem, isLoading }) {
-  if (isLoading) return <div className="panel problem-panel">Loading problem...</div>;
+  if (isLoading) {
+    return (
+      <Box className="problem-panel" display="flex" justifyContent="center" alignItems="center">
+        <Spinner size="xl" color="green.500" />
+      </Box>
+    );
+  }
 
   if (!problem?.data?.question) {
     return (
-      <div className="panel problem-panel error-message">
-        <h3>Error loading problem</h3>
-        <p>Problem not found</p>
-        <a href="/problems">← Back to Problems List</a>
-      </div>
+      <Box className="problem-panel">
+        Problem not found
+      </Box>
     );
   }
 
   const { title, difficulty, questionId, content } = problem.data.question;
 
   return (
-    <div className="panel problem-panel">
-      <h2>{title}</h2>
+    <Box className="problem-panel">
+      <h1>{title}</h1>
       <div className="problem-stats">
         {difficulty && (
-          <span className={`difficulty ${difficulty.toLowerCase()}`}>
+          <span className={`difficulty ${difficulty}`}>
             {difficulty}
           </span>
         )}
         {questionId && <span>Problem #{questionId}</span>}
       </div>
       <div 
-        className="problem-description"
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+        className="problem-content"
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} 
       />
-    </div>
+    </Box>
   );
 }
 

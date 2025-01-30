@@ -1,61 +1,16 @@
 import { Box, Button, Flex, Input, Text, VStack } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import { useChat } from '../hooks/useChat';
 
 const Chat = () => {
-    const [messages, setMessages] = useState([]);
+    const { messages, isLoading, sendMessage } = useChat();
     const [inputMessage, setInputMessage] = useState('');
-    const messagesEndRef = useRef(null);
-
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
 
     const handleSendMessage = async () => {
         if (!inputMessage.trim()) return;
-
-        // Add user message to chat
-        const userMessage = {
-            role: 'user',
-            content: inputMessage
-        };
-        setMessages(prev => [...prev, userMessage]);
+        
+        await sendMessage(inputMessage);
         setInputMessage('');
-
-        try {
-            // Send message to AI server
-            const response = await fetch('http://localhost:5000/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: inputMessage })
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to get AI response');
-            }
-
-            const data = await response.json();
-            
-            // Add AI response to chat
-            const aiMessage = {
-                role: 'assistant',
-                content: data.response
-            };
-            setMessages(prev => [...prev, aiMessage]);
-        } catch (error) {
-            console.error('Chat error:', error);
-            // Add error message to chat
-            const errorMessage = {
-                role: 'assistant',
-                content: 'Sorry, I encountered an error. Please try again.'
-            };
-            setMessages(prev => [...prev, errorMessage]);
-        }
     };
 
     const handleKeyPress = (e) => {
@@ -66,7 +21,7 @@ const Chat = () => {
     };
 
     return (
-        <Box h="100%" p={4}>
+        <Box h="100%" display="flex" flexDirection="column">
             <VStack 
                 flex="1" 
                 overflowY="auto" 
@@ -78,8 +33,8 @@ const Chat = () => {
                     <Box 
                         key={index}
                         alignSelf={msg.role === 'user' ? 'flex-end' : 'flex-start'}
-                        bg={msg.role === 'user' ? 'blue.500' : 'gray.100'}
-                        color={msg.role === 'user' ? 'white' : 'black'}
+                        bg={msg.role === 'user' ? 'blue.500' : 'gray.700'}
+                        color="white"
                         px={4}
                         py={2}
                         borderRadius="lg"
@@ -88,20 +43,35 @@ const Chat = () => {
                         <Text>{msg.content}</Text>
                     </Box>
                 ))}
-                <div ref={messagesEndRef} />
+                {isLoading && (
+                    <Box 
+                        alignSelf="flex-start"
+                        bg="gray.700"
+                        color="white"
+                        px={4}
+                        py={2}
+                        borderRadius="lg"
+                    >
+                        <Text>Thinking...</Text>
+                    </Box>
+                )}
             </VStack>
             
-            <Flex p={4} borderTop="1px" borderColor="gray.200">
+            <Flex p={4} borderTop="1px" borderColor="gray.600">
                 <Input
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Ask a question..."
                     mr={2}
+                    bg="gray.700"
+                    color="white"
+                    _placeholder={{ color: 'gray.400' }}
                 />
                 <Button 
-                    colorScheme="blue" 
+                    colorScheme="green"
                     onClick={handleSendMessage}
+                    isLoading={isLoading}
                 >
                     Send
                 </Button>

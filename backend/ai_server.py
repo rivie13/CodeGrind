@@ -6,11 +6,16 @@ import time
 import sys
 
 app = Flask(__name__)
-# Configure CORS to allow requests from your frontend
+# Configure CORS to allow requests from both frontends
 CORS(app, resources={
     r"/chat": {
-        "origins": ["http://127.0.0.1:8000", "http://localhost:8000", "http://localhost:5173"],
-        "methods": ["POST"]
+        "origins": [
+            "http://127.0.0.1:8000",  # Original frontend
+            "http://localhost:8000",   # Original frontend
+            "http://localhost:5173"    # React frontend
+        ],
+        "methods": ["POST"],
+        "allow_headers": ["Content-Type"]
     }
 })
 
@@ -44,14 +49,17 @@ def start_ollama():
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
+        # Get message from either frontend implementation
         data = request.json
-        user_message = data.get('message', '')
-        
+        message = data.get('message')
+        if not message:
+            return jsonify({'error': 'No message provided'}), 400
+
         # Call Ollama API
         response = requests.post('http://localhost:11434/api/generate', 
             json={
                 'model': 'codellama',
-                'prompt': user_message,
+                'prompt': message,
                 'stream': False
             }
         )
@@ -61,6 +69,18 @@ def chat():
             return jsonify({'response': ai_response})
         else:
             return jsonify({'error': 'Failed to get response from Ollama'}), 500
+
+        # Alternative implementation using ollama package
+        # Keeping this commented for future reference
+        """
+        import ollama
+        response = ollama.chat(model='codellama', messages=[
+            {'role': 'user', 'content': message}
+        ])
+        return jsonify({
+            'response': response['message']['content']
+        })
+        """
             
     except Exception as e:
         print(f"Error in chat endpoint: {e}")
@@ -70,6 +90,9 @@ if __name__ == '__main__':
     try:
         start_ollama()
         print("Starting Flask server...")
-        app.run(port=5000)
+        print("\nServer is accessible from:")
+        print("- Original frontend: http://localhost:8000")
+        print("- React frontend: http://localhost:5173")
+        app.run(port=5000, debug=True)
     except Exception as e:
-        print(f"Error: {e}") 
+        print(f"Error: {e}")

@@ -243,3 +243,154 @@ body {
 .editor-controls > * + * {
     margin-left: 8px;
 }
+
+/* Update resize handle styles */
+.resize-handle {
+  width: 4px;
+  background: #404040;
+  transition: background-color 0.2s;
+  cursor: col-resize;
+  margin: 0;
+  padding: 0;
+}
+
+.resize-handle:hover,
+.resize-handle[data-resize-handle-active] {
+  background: #00ff00;
+  width: 4px;
+}
+
+/* Update panel styles */
+.problem-panel {
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem;
+  color: #00ff00;
+  font-size: 1rem;
+  line-height: 1.6;
+  background: #1e1e1e;
+}
+
+/* Remove any margins/padding from panel containers */
+[data-panel-id] {
+  margin: 0;
+  padding: 0;
+  background: #1e1e1e;
+}
+
+/* Ensure panels are flush against each other */
+[data-panel-group] {
+  gap: 0;
+}
+
+.problem-panel h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #00ff00;
+}
+
+.problem-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.problem-content {
+  color: #00ff00;
+}
+
+.problem-content pre {
+  background: #1e1e1e;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border: 1px solid #404040;
+}
+
+.problem-content code {
+  font-family: 'Courier New', monospace;
+  background: #1e1e1e;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+}
+
+/* Make sure the panels fill the height */
+.chakra-box {
+  height: 100%;
+}
+
+/* Panel content styles */
+.panel-content {
+  height: 100%;
+  background: #1e1e1e;
+  overflow: hidden;
+  width: 100%; /* Ensure full width */
+}
+
+/* Problem panel styles */
+.problem-panel {
+  height: 100%;
+  width: 100%; /* Ensure full width */
+  overflow-y: auto;
+  padding: 1.5rem;
+  padding-right: 1rem; /* Reduced right padding to account for scrollbar */
+  color: #00ff00;
+  font-size: 1rem;
+  line-height: 1.6;
+  background: #1e1e1e;
+}
+
+/* Custom scrollbar styles */
+.problem-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.problem-panel::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.problem-panel::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 4px;
+}
+
+.problem-panel::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Problem content styles */
+.problem-content {
+  width: 100%; /* Ensure content takes full width */
+}
+
+/* Resize handle styles */
+.resize-handle {
+  width: 4px;
+  background: #404040;
+  transition: background-color 0.2s;
+  cursor: col-resize;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+}
+
+.resize-handle:hover,
+.resize-handle[data-resize-handle-active] {
+  background: #00ff00;
+  width: 4px;
+}
+
+/* Remove any gaps between panels */
+[data-panel-id] {
+  margin: 0;
+  padding: 0;
+  background: #1e1e1e;
+  width: 100%; /* Ensure panels take full width */
+}
+
+[data-panel-group] {
+  gap: 0;
+  width: 100%; /* Ensure panel group takes full width */
+}

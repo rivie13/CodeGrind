@@ -1,9 +1,10 @@
-import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import MonacoEditor from '@monaco-editor/react';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { useParams } from 'react-router-dom';
-import ChatPanel from '../components/ChatPanel';
+import Chat from '../components/Chat';
 import ProblemPanel from '../components/ProblemPanel';
 
 const ProblemWorkspace = () => {
@@ -23,33 +24,32 @@ const ProblemWorkspace = () => {
 
   return (
     <Box h="calc(100vh - 64px)" bg="#1e1e1e">
-      <Grid
-        templateColumns="30% 45% 25%"
-        gap={0}
-        h="100%"
-      >
+      <PanelGroup direction="horizontal">
         {/* Problem Description */}
-        <GridItem 
-          overflowY="auto" 
-          borderRight="1px solid" 
-          borderColor="gray.600"
-        >
-          <ProblemPanel problem={problem} isLoading={isLoading} />
-        </GridItem>
+        <Panel defaultSize={30} minSize={20} maxSize={45}>
+          <Box h="100%" className="panel-content">
+            <ProblemPanel problem={problem} isLoading={isLoading} />
+          </Box>
+        </Panel>
+
+        <PanelResizeHandle className="resize-handle" />
 
         {/* Code Editor */}
-        <GridItem>
-          <EditorPanel language={language} setLanguage={setLanguage} />
-        </GridItem>
+        <Panel defaultSize={45} minSize={30}>
+          <Box h="100%" className="panel-content">
+            <EditorPanel language={language} setLanguage={setLanguage} />
+          </Box>
+        </Panel>
+
+        <PanelResizeHandle className="resize-handle" />
 
         {/* Chat Panel */}
-        <GridItem 
-          borderLeft="1px solid" 
-          borderColor="gray.600"
-        >
-          <ChatPanel />
-        </GridItem>
-      </Grid>
+        <Panel defaultSize={25} minSize={15}>
+          <Box h="100%" className="panel-content">
+            <Chat />
+          </Box>
+        </Panel>
+      </PanelGroup>
     </Box>
   );
 };
