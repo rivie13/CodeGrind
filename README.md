@@ -55,6 +55,12 @@ pip install -r requirements.txt
 ollama pull codellama
 ```
 
+5. Install frontend dependencies
+```bash
+   cd codegrind-frontend
+   npm install
+```
+
 ### Running the Application
 
 1. Start the Express backend server (serves LeetCode problems)
@@ -75,9 +81,17 @@ cd backend
 python ai_server.py
 ```
 
+3. Start the React development server: (if using the react frontend)
+```bash
+   cd codegrind-frontend
+   npm run dev
+   ```
+
+
 4. Access the application
-- Open your browser and navigate to `http://127.0.0.1:8000`
+- Open your browser and navigate to `http://127.0.0.1:8000/public/index.html`
 - Note: Use `127.0.0.1` instead of `localhost` for proper CORS functionality
+- Open your browser and navigate to `http://localhost:5173` to access the application. (if using the react frontend)
 
 ### Development Notes
 - The frontend runs on port 8000
