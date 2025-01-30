@@ -1,7 +1,44 @@
-
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM Content Loaded');
     
+    // Initialize Monaco Editor
+    require(['vs/editor/editor.main'], function() {
+        window.editor = monaco.editor.create(document.getElementById('monaco-editor'), {
+            value: '# Your code here\n',
+            language: 'python',
+            theme: 'vs-dark',
+            automaticLayout: true,
+            minimap: {
+                enabled: false
+            },
+            fontSize: 14,
+            scrollBeyondLastLine: false,
+            roundedSelection: false,
+            padding: {
+                top: 20
+            },
+            lineNumbers: 'on',
+            renderLineHighlight: 'all',
+            contextmenu: true,
+            scrollbar: {
+                vertical: 'visible',
+                horizontal: 'visible'
+            }
+        });
+
+        // Add language selector after editor creation
+        const languageSelect = document.getElementById('language-select');
+        languageSelect.value = 'javascript'; // Set default
+        languageSelect.addEventListener('change', (e) => {
+            monaco.editor.setModelLanguage(editor.getModel(), e.target.value);
+        });
+
+        // Ensure editor layout is updated
+        window.addEventListener('resize', () => {
+            editor.layout();
+        });
+    });
+
     const problemContent = document.getElementById('problem-content');
     const urlParams = new URLSearchParams(window.location.search);
     const titleSlug = urlParams.get('titleSlug');

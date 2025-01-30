@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 // Only allow requests from your local machine
 app.use(cors({
-    origin: ['http://localhost:8000', 'http://127.0.0.1:8000'],
+    origin: ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://127.0.0.1:8000', 'http://localhost:8000'],
     methods: ['GET'] // Only allow GET requests
 }));
 

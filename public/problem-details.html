@@ -30,6 +30,12 @@
         <div class="panel editor-panel">
             <div id="monaco-editor"></div>
             <div class="editor-controls">
+                <select id="language-select" class="language-select">
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="cpp">C++</option>
+                </select>
                 <button id="run-code" class="primary-button">Run Code</button>
                 <button id="submit-code" class="primary-button">Submit</button>
             </div>
@@ -54,13 +60,16 @@
         </div>
     </main>
 
-    <!-- Monaco Editor setup -->
+    <!-- Monaco Editor setup - place this before your other scripts -->
     <script src="http://localhost:3000/node_modules/monaco-editor/min/vs/loader.js"></script>
     <script>
         require.config({
-            paths: { vs: 'http://localhost:3000/node_modules/monaco-editor/min/vs' }
+            paths: { 
+                vs: 'http://localhost:3000/node_modules/monaco-editor/min/vs'
+            }
         });
     </script>
     <script src="js/problem-details.js"></script>
+    <script src="js/chat.js"></script>
 </body>
 </html>
