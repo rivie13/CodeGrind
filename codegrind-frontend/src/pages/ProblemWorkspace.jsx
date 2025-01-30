@@ -8,9 +8,13 @@ import Chat from '../components/Chat';
 import ProblemPanel from '../components/ProblemPanel';
 
 const ProblemWorkspace = () => {
+  // Get problem ID from URL parameters
   const { titleSlug } = useParams();
+  
+  // Track selected programming language
   const [language, setLanguage] = useState('python');
   
+  // Fetch problem data using React Query
   const { data: problem, isLoading } = useQuery({
     queryKey: ['problem', titleSlug],
     queryFn: async () => {
@@ -23,9 +27,10 @@ const ProblemWorkspace = () => {
   });
 
   return (
-    <Box h="calc(100vh - 64px)" bg="#1e1e1e">
+    <Box h="calc(100vh - 64px)" bg="#1e1e1e" overflow="hidden">
+      {/* Main horizontal panel layout */}
       <PanelGroup direction="horizontal">
-        {/* Problem Description */}
+        {/* Left panel: Problem Description */}
         <Panel defaultSize={30} minSize={20} maxSize={45}>
           <Box h="100%" className="panel-content">
             <ProblemPanel problem={problem} isLoading={isLoading} />
@@ -34,7 +39,7 @@ const ProblemWorkspace = () => {
 
         <PanelResizeHandle className="resize-handle" />
 
-        {/* Code Editor */}
+        {/* Middle panel: Code Editor */}
         <Panel defaultSize={45} minSize={30}>
           <Box h="100%" className="panel-content">
             <EditorPanel language={language} setLanguage={setLanguage} />
@@ -43,7 +48,7 @@ const ProblemWorkspace = () => {
 
         <PanelResizeHandle className="resize-handle" />
 
-        {/* Chat Panel */}
+        {/* Right panel: AI Chat Assistant */}
         <Panel defaultSize={25} minSize={15}>
           <Box h="100%" className="panel-content">
             <Chat />
@@ -54,9 +59,11 @@ const ProblemWorkspace = () => {
   );
 };
 
+// Editor component with language selector and controls
 function EditorPanel({ language, setLanguage }) {
   return (
     <Box h="100%" display="flex" flexDirection="column">
+      {/* Monaco code editor */}
       <Box flex="1">
         <MonacoEditor
           height="100%"
@@ -70,6 +77,8 @@ function EditorPanel({ language, setLanguage }) {
           }}
         />
       </Box>
+      
+      {/* Bottom controls bar */}
       <Box 
         p={2} 
         bg="#252526" 

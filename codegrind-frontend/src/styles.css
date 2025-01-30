@@ -252,6 +252,7 @@ body {
   cursor: col-resize;
   margin: 0;
   padding: 0;
+  z-index: 2;
 }
 
 .resize-handle:hover,
@@ -276,11 +277,13 @@ body {
   margin: 0;
   padding: 0;
   background: #1e1e1e;
+  width: 100%;
 }
 
 /* Ensure panels are flush against each other */
 [data-panel-group] {
   gap: 0;
+  width: 100%;
 }
 
 .problem-panel h1 {
