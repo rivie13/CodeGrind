@@ -2,6 +2,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import { LeetCode } from 'leetcode-query';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -9,6 +11,10 @@ const app = express();
 const port = 3000;
 // Initialize LeetCode client with authentication
 const leetcode = new LeetCode();
+
+// Get the directory name using ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -22,6 +28,10 @@ app.use(cors({
     origin: 'http://127.0.0.1:8000',
     methods: ['GET'] // Only allow GET requests
 }));
+
+
+// Serve Monaco Editor files from node_modules
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
 // Bind to localhost only
 app.get('/api/problems', async (req, res) => {

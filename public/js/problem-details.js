@@ -1,4 +1,7 @@
+
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM Content Loaded');
+    
     const problemContent = document.getElementById('problem-content');
     const urlParams = new URLSearchParams(window.location.search);
     const titleSlug = urlParams.get('titleSlug');
