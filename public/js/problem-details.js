@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Add language selector after editor creation
         const languageSelect = document.getElementById('language-select');
-        languageSelect.value = 'javascript'; // Set default
+        languageSelect.value = 'python'; // Set default
         languageSelect.addEventListener('change', (e) => {
             monaco.editor.setModelLanguage(editor.getModel(), e.target.value);
         });
