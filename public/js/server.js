@@ -23,12 +23,11 @@ app.use((req, res, next) => {
     next();
 });
 
-// Only allow requests from your local machine
+// Update CORS configuration to include Vite's default port
 app.use(cors({
-    origin: ['http://localhost:8000', 'http://127.0.0.1:8000', 'http://127.0.0.1:8000', 'http://localhost:8000'],
-    methods: ['GET'] // Only allow GET requests
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    methods: ['GET']
 }));
-
 
 // Serve Monaco Editor files from node_modules
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
