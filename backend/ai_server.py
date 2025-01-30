@@ -9,7 +9,7 @@ app = Flask(__name__)
 # Configure CORS to allow requests from your frontend
 CORS(app, resources={
     r"/chat": {
-        "origins": ["http://127.0.0.1:8000", "http://localhost:8000"],
+        "origins": ["http://127.0.0.1:8000", "http://localhost:8000", "http://localhost:5173"],
         "methods": ["POST"]
     }
 })

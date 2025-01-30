@@ -89,7 +89,7 @@ python ai_server.py
 
 
 4. Access the application
-- Open your browser and navigate to `http://127.0.0.1:8000`
+- Open your browser and navigate to `http://127.0.0.1:8000/public/index.html`
 - Note: Use `127.0.0.1` instead of `localhost` for proper CORS functionality
 - Open your browser and navigate to `http://localhost:5173` to access the application. (if using the react frontend)
 

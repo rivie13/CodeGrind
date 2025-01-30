@@ -7,17 +7,25 @@ function ProblemList() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
 
-  const { data, isLoading } = useQuery(
-    ['problems', difficulty],
-    () => fetch(`http://localhost:3000/api/problems${difficulty ? `?difficulty=${difficulty}` : ''}`)
-      .then(res => res.json())
-  );
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['problems', difficulty],
+    queryFn: async () => {
+      const response = await fetch(
+        `http://localhost:3000/api/problems${difficulty ? `?difficulty=${difficulty}` : ''}`
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    }
+  });
+
+  if (isLoading) return <div>Loading problems...</div>;
+  if (error) return <div>Error loading problems: {error.message}</div>;
 
   const problems = data?.questions || [];
   const totalPages = Math.ceil(problems.length / perPage);
   const currentProblems = problems.slice((page - 1) * perPage, page * perPage);
-
-  if (isLoading) return <div>Loading problems...</div>;
 
   return (
     <div className="problems-container">
