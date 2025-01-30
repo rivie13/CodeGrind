@@ -89,6 +89,7 @@ python ai_server.py
 ```
 codegrind/
 ├── backend/
+│   ├── .env
 │   ├── ai_server.py
 │   └── requirements.txt
 ├── public/
@@ -101,7 +102,28 @@ codegrind/
 │       ├── problems.js
 │       └── problem-details.js
 └── README.md
+│       
+└── .env
 ```
+
+## Environment Variables
+.env files are not included in the repository. You need to create them yourself.
+.env files are used to store sensitive information such as API keys and passwords.
+codegrind/.env file:
+'''
+# LeetCode credentials
+LEETCODE_USERNAME=
+LEETCODE_PASSWORD=
+'''
+
+backend/.env file:
+'''
+# Azure OpenAI credentials
+# Azure options that you can set none are used yet...
+USE_AZURE=false
+AZURE_ENDPOINT=
+AZURE_API_KEY=
+'''
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request. I may take a while to review it.
