@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Problem Details - CodeGrind</title>
+    <title>CodeGrind - Problem Details</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css">
 </head>
 <body>
     <nav>
@@ -17,29 +16,20 @@
             </div>
         </div>
     </nav>
-    
+
     <main class="problem-workspace">
-        <!-- Left panel: Problem description -->
+        <!-- Left panel: Problem Description -->
         <div class="panel problem-panel">
-            <div id="problem-content">
-                Loading problem...
-            </div>
+            <div id="problem-content">Loading problem...</div>
         </div>
-        
+
         <!-- Resize handle -->
         <div class="resize-handle"></div>
 
-        <!-- Middle panel: Code editor -->
+        <!-- Middle panel: Code Editor -->
         <div class="panel editor-panel">
-            <div class="editor-header">
-                <select id="language-select">
-                    <option value="python">Python</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="java">Java</option>
-                </select>
-            </div>
-            <div class="editor-container" id="monaco-editor"></div>
-            <div class="editor-footer">
+            <div id="monaco-editor"></div>
+            <div class="editor-controls">
                 <button id="run-code" class="primary-button">Run Code</button>
                 <button id="submit-code" class="primary-button">Submit</button>
             </div>
@@ -63,32 +53,14 @@
             </div>
         </div>
     </main>
-    
+
     <!-- Monaco Editor setup -->
     <script src="http://localhost:3000/node_modules/monaco-editor/min/vs/loader.js"></script>
     <script>
         require.config({
             paths: { vs: 'http://localhost:3000/node_modules/monaco-editor/min/vs' }
         });
-
-        require(['vs/editor/editor.main'], function() {
-            // Create the editor
-            const editor = monaco.editor.create(document.getElementById('monaco-editor'), {
-                value: '# Write your code here\n',
-                language: 'python',
-                theme: 'vs-dark',
-                automaticLayout: true,
-                minimap: { enabled: true },
-                fontSize: 14,
-                lineNumbers: 'on'
-            });
-
-            // Handle language changes
-            document.getElementById('language-select').addEventListener('change', function(e) {
-                monaco.editor.setModelLanguage(editor.getModel(), e.target.value);
-            });
-        });
     </script>
-    <script src="js/problem-details.js" type="module"></script>
+    <script src="js/problem-details.js"></script>
 </body>
 </html>
