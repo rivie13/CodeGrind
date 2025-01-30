@@ -3,44 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Problem Details - LeetCode Explorer</title>
+    <title>CodeGrind - Problem Details</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav>
         <div class="nav-container">
-            <h1>LeetCode Explorer</h1>
+            <h1>CodeGrind</h1>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="problems.html">Problem List</a>
             </div>
         </div>
     </nav>
-    
+
     <main class="problem-workspace">
-        <!-- Left panel: Problem description -->
+        <!-- Left panel: Problem Description -->
         <div class="panel problem-panel">
-            <div id="problem-content">
-                Loading problem...
-            </div>
+            <div id="problem-content">Loading problem...</div>
         </div>
-        
+
         <!-- Resize handle -->
         <div class="resize-handle"></div>
 
-        <!-- Middle panel: Code editor -->
+        <!-- Middle panel: Code Editor -->
         <div class="panel editor-panel">
-            <div class="editor-header">
-                <select id="language-select">
-                    <option value="python">Python</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="java">Java</option>
-                </select>
-            </div>
-            <div class="editor-container">
-                <textarea id="code-editor" placeholder="Write your code here..."></textarea>
-            </div>
-            <div class="editor-footer">
+            <div id="monaco-editor"></div>
+            <div class="editor-controls">
                 <button id="run-code" class="primary-button">Run Code</button>
                 <button id="submit-code" class="primary-button">Submit</button>
             </div>
@@ -64,7 +53,14 @@
             </div>
         </div>
     </main>
-    
-    <script src="js/problem-details.js" type="module"></script>
+
+    <!-- Monaco Editor setup -->
+    <script src="http://localhost:3000/node_modules/monaco-editor/min/vs/loader.js"></script>
+    <script>
+        require.config({
+            paths: { vs: 'http://localhost:3000/node_modules/monaco-editor/min/vs' }
+        });
+    </script>
+    <script src="js/problem-details.js"></script>
 </body>
 </html>

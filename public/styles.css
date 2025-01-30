@@ -181,11 +181,15 @@ main {
 .problem-panel {
     width: 30%;
     min-width: 300px;
+    overflow-y: auto;
+    padding: 1rem;
 }
 
 .editor-panel {
     width: 45%;
     min-width: 400px;
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-panel {
@@ -202,19 +206,20 @@ main {
 }
 
 .resize-handle:hover {
-    background: #3498db;
+    background: #bdbdbd;
 }
 
-.resize-handle.active {
-    background: #3498db;
-    width: 6px;
+/* Editor specific styles */
+#monaco-editor {
+    flex-grow: 1;
+    height: calc(100% - 50px); /* Adjust based on your editor controls height */
 }
 
-/* Problem panel */
-.problem-panel {
-    padding: 2rem;
-    overflow-y: auto;
-    max-width: 100%;
+.editor-controls {
+    padding: 8px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    gap: 8px;
 }
 
 /* Problem content styling */
@@ -263,47 +268,13 @@ main {
 }
 
 /* Editor panel */
-.editor-panel {
-    display: flex;
-    flex-direction: column;
-}
-
-.editor-header {
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
-}
-
 .editor-container {
-    flex-grow: 1;
-    padding: 1rem;
-}
-
-#code-editor {
-    width: 100%;
-    height: 100%;
-    border: none;
-    resize: none;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 1rem;
-    background: #f8f9fa;
-}
-
-.editor-footer {
-    padding: 1rem;
-    border-top: 1px solid #eee;
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
+    flex: 1;
+    min-height: 400px;
+    position: relative;
 }
 
 /* Chat panel */
-.chat-panel {
-    display: flex;
-    flex-direction: column;
-}
-
 .chat-messages {
     flex-grow: 1;
     overflow-y: auto;
