@@ -38,7 +38,7 @@ cd codegrind
 
 2. Install backend dependencies
 ```bash
-cd public/js
+cd backend
 npm install
 ```
 
@@ -63,61 +63,47 @@ ollama pull codellama
 
 ### Running the Application
 
-1. Start the Express backend server (serves LeetCode problems)
+1. Start the backend servers:
 ```bash
-cd public/js
-node server.js
-```
-
-2. Start the frontend server (in a new terminal)
-```bash
-# From the project root
-python -m http.server 8000
-```
-
-3. Start the AI server (in a new terminal)
-```bash
+# Start the AI server
 cd backend
 python ai_server.py
+
+# In a separate terminal, start the Express server
+cd backend
+npm run dev
 ```
 
-3. Start the React development server: (if using the react frontend)
+2. Start the frontend:
 ```bash
-   cd codegrind-frontend
-   npm run dev
-   ```
+cd codegrind-frontend
+npm run dev
+```
 
-
-4. Access the application
-- Open your browser and navigate to `http://127.0.0.1:8000/public/index.html`
-- Note: Use `127.0.0.1` instead of `localhost` for proper CORS functionality
-- Open your browser and navigate to `http://localhost:5173` to access the application. (if using the react frontend)
+3. Access the application at http://localhost:5173
 
 ### Development Notes
-- The frontend runs on port 8000
+- The frontend runs on port 5173
 - The Express backend runs on port 3000
-- The AI server runs on port 5000
+- The AI server runs on port 5000 (must be started separately with Python)
 - CORS is configured to allow communication between these services
 
 ## Project Structure
 ```
 codegrind/
-├── backend/
-│   ├── .env
-│   ├── ai_server.py
-│   └── requirements.txt
-├── public/
-│   ├── index.html
-│   ├── problems.html
-│   ├── problem-details.html
-│   ├── styles.css
-│   └── js/
-│       ├── server.js
-│       ├── problems.js
-│       └── problem-details.js
+├── backend/               # Backend services
+│   ├── .env              # LeetCode credentials
+│   ├── ai_server.py      # AI assistant server
+│   ├── leetcode-server.js # LeetCode API server
+│   ├── package.json      # Node dependencies
+│   └── requirements.txt  # Python dependencies
+│
+├── codegrind-frontend/   # React frontend
+│   ├── src/             # React source code
+│   ├── .env             # Frontend environment variables
+│   └── package.json     # Frontend dependencies
+│
 └── README.md
-│       
-└── .env
 ```
 
 ## Environment Variables
