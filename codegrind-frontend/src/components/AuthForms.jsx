@@ -9,6 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function AuthForms() {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,6 +17,7 @@ export function AuthForms() {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,22 +27,23 @@ export function AuthForms() {
       const response = await fetch(`http://localhost:3000${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email, 
-          password,
-          ...(isLogin ? {} : { username })
-        }),
+        body: JSON.stringify(
+          isLogin 
+            ? { email, password }  // Login only needs email and password
+            : { email, password, username }  // Register needs all three
+        ),
       });
       
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.error || 'Something went wrong');
+        throw new Error(data.error || 'Authentication failed');
       }
 
       if (data.token) {
         localStorage.setItem('token', data.token);
-        window.location.href = '/problems';
+        localStorage.setItem('user', JSON.stringify(data.user));
+        navigate('/profile');
       }
     } catch (error) {
       toast({
@@ -71,9 +74,9 @@ export function AuthForms() {
             </FormControl>
           )}
           <FormControl isRequired>
-            <FormLabel color="green.400">Email</FormLabel>
+            <FormLabel color="green.400">{isLogin ? 'Username or Email' : 'Email'}</FormLabel>
             <Input
-              type="email"
+              type={isLogin ? "text" : "email"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               bg="gray.800"
@@ -103,7 +106,12 @@ export function AuthForms() {
           <Text
             cursor="pointer"
             color="cyan.400"
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setEmail('');
+              setPassword('');
+              setUsername('');
+            }}
           >
             {isLogin ? 'Need an account? Register' : 'Have an account? Login'}
           </Text>

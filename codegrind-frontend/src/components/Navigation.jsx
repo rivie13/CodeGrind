@@ -17,6 +17,12 @@ function Navigation() {
           >
             Problem List
           </Link>
+          <Link 
+            to="/profile" 
+            className={location.pathname === '/profile' ? 'active' : ''}
+          >
+            Profile
+          </Link>
         </div>
       </div>
     </nav>

@@ -6,6 +6,7 @@ import Root from './components/Root';
 import Home from './pages/Home';
 import ProblemList from './pages/ProblemList';
 import ProblemWorkspace from './pages/ProblemWorkspace';
+import ProfileDashboard from './pages/ProfileDashboard';
 import theme from './theme';
 
 const queryClient = new QueryClient();
@@ -26,7 +27,11 @@ const router = createBrowserRouter([
       { 
         path: "/problem/:titleSlug", 
         element: <ProblemWorkspace /> 
-      }
+      },
+      {
+        path: 'profile',
+        element: <ProfileDashboard />,
+      },
     ]
   }
 ]);
