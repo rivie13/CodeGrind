@@ -1,13 +1,17 @@
-import { Box, Button, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import { keyframes } from '@emotion/react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthForms } from '../components/AuthForms';
 
 // First, install framer-motion if you haven't:
 // npm install framer-motion
 // npm install @emotion/react
 
 const Home = () => {
+  const [showAuth, setShowAuth] = useState(false);
+
   const glitchAnimation = keyframes`
     0% {
       text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
@@ -107,27 +111,59 @@ const Home = () => {
           </Text>
         </MotionBox>
 
-        {/* Animated Button */}
-        <MotionBox
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 1, type: "spring" }}
-        >
-          <Link to="/problems">
-            <Button
-              size="lg"
-              bgGradient="linear(to-r, green.400, cyan.400)"
-              color="white"
-              _hover={{
-                bgGradient: "linear(to-r, green.500, cyan.500)",
-                transform: "scale(1.05)"
-              }}
-              transition="all 0.2s"
+        {/* Conditional Render: Show either Auth Forms or Action Buttons */}
+        {showAuth ? (
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <AuthForms />
+          </MotionBox>
+        ) : (
+          <HStack spacing={4}>
+            <MotionBox
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1, type: "spring" }}
             >
-              Start Practicing
-            </Button>
-          </Link>
-        </MotionBox>
+              <Button
+                size="lg"
+                bgGradient="linear(to-r, green.400, cyan.400)"
+                color="white"
+                onClick={() => setShowAuth(true)}
+                _hover={{
+                  bgGradient: "linear(to-r, green.500, cyan.500)",
+                  transform: "scale(1.05)"
+                }}
+                transition="all 0.2s"
+              >
+                Sign In
+              </Button>
+            </MotionBox>
+
+            <MotionBox
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.2, type: "spring" }}
+            >
+              <Link to="/problems">
+                <Button
+                  size="lg"
+                  bgGradient="linear(to-r, green.400, cyan.400)"
+                  color="white"
+                  _hover={{
+                    bgGradient: "linear(to-r, green.500, cyan.500)",
+                    transform: "scale(1.05)"
+                  }}
+                  transition="all 0.2s"
+                >
+                  Start Practicing
+                </Button>
+              </Link>
+            </MotionBox>
+          </HStack>
+        )}
       </VStack>
     </Box>
   );

@@ -25,14 +25,22 @@ function ProblemList() {
   const { data, isLoading, error } = useQuery({
     queryKey: ['problems', difficulty],
     queryFn: async () => {
+      console.log('Fetching problems...'); // Debug log
       const response = await fetch(
         `http://localhost:3000/api/problems${difficulty ? `?difficulty=${difficulty}` : ''}`
       );
+      console.log('Response status:', response.status); // Debug log
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        const errorData = await response.json();
+        console.error('API Error:', errorData); // Debug log
+        throw new Error(errorData.message || 'Network response was not ok');
       }
-      return response.json();
-    }
+      const data = await response.json();
+      console.log('Fetched data:', data); // Debug log
+      return data;
+    },
+    retry: 1, // Only retry once
+    retryDelay: 1000 // Wait 1 second between retries
   });
 
   if (isLoading) return (

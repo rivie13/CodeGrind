@@ -257,7 +257,7 @@ body {
 
 .resize-handle:hover,
 .resize-handle[data-resize-handle-active] {
-  background: #00ff00;
+  background: #666666;
   width: 4px;
 }
 
@@ -381,7 +381,7 @@ body {
 
 .resize-handle:hover,
 .resize-handle[data-resize-handle-active] {
-  background: #00ff00;
+  background: #666666;
   width: 4px;
 }
 
@@ -390,10 +390,10 @@ body {
   margin: 0;
   padding: 0;
   background: #1e1e1e;
-  width: 100%; /* Ensure panels take full width */
+  width: 100%;
 }
 
 [data-panel-group] {
   gap: 0;
-  width: 100%; /* Ensure panel group takes full width */
+  width: 100%;
 }
