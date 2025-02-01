@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Ensure this points to your PostgreSQL database
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  bio       String?
+  avatarUrl String?
+  stats     UserStats?
+  activities UserActivity[]
+  achievements UserAchievement[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserStats {
+  id            Int      @id @default(autoincrement())
+  userId        Int      @unique
+  user          User     @relation(fields: [userId], references: [id])
+  problemsSolved Int     @default(0)
+  easySolved    Int     @default(0)
+  mediumSolved  Int     @default(0)
+  hardSolved    Int     @default(0)
+  totalAttempts Int     @default(0)
+  streak        Int     @default(0)
+  lastSolved    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model UserActivity {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  type        String   // e.g., "SOLVED", "ATTEMPTED"
+  problemId   String
+  problemName String
+  difficulty  String
+  timestamp   DateTime @default(now())
+}
+
+model UserAchievement {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  title       String
+  description String
+  icon        String
+  unlockedAt  DateTime @default(now())
+} 
+
+model Submission {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  problemId String
+  code      String
+  language  String
+  status    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
