@@ -70,5 +70,99 @@ export const authService = {
   sanitizeUser(user) {
     const { password, ...sanitizedUser } = user;
     return sanitizedUser;
-  }
+  },
+
+  async getProfile(userId) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        stats: true,
+        activities: {
+          orderBy: { timestamp: 'desc' },
+          take: 10, // Get last 10 activities
+        },
+        achievements: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Calculate success rate
+    const successRate = user.stats
+      ? Math.round((user.stats.problemsSolved / user.stats.totalAttempts) * 100) || 0
+      : 0;
+
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      bio: user.bio,
+      avatarUrl: user.avatarUrl,
+      createdAt: user.createdAt,
+      stats: {
+        problemsSolved: user.stats?.problemsSolved || 0,
+        easySolved: user.stats?.easySolved || 0,
+        mediumSolved: user.stats?.mediumSolved || 0,
+        hardSolved: user.stats?.hardSolved || 0,
+        successRate,
+        streak: user.stats?.streak || 0,
+      },
+      recentActivity: user.activities.map(activity => ({
+        id: activity.id,
+        problem: activity.problemName,
+        status: activity.type,
+        date: activity.timestamp,
+      })),
+      achievements: user.achievements.map(achievement => ({
+        id: achievement.id,
+        title: achievement.title,
+        description: achievement.description,
+        icon: achievement.icon,
+        unlockedAt: achievement.unlockedAt,
+      })),
+    };
+  },
+
+  async updateProfile(userId, updateData) {
+    const { username, email, bio } = updateData;
+
+    // Check if username or email is already taken
+    if (username || email) {
+      const existingUser = await prisma.user.findFirst({
+        where: {
+          OR: [
+            username ? { username } : null,
+            email ? { email } : null,
+          ].filter(Boolean),
+          NOT: { id: userId },
+        },
+      });
+
+      if (existingUser) {
+        throw new Error('Username or email already taken');
+      }
+    }
+
+    // Update user profile
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        username,
+        email,
+        bio,
+      },
+      include: {
+        stats: true,
+        activities: {
+          orderBy: { timestamp: 'desc' },
+          take: 10,
+        },
+        achievements: true,
+      },
+    });
+
+    return this.getProfile(userId);
+  },
 }; 
